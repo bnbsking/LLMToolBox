@@ -1,0 +1,13 @@
+api:
+  api_key_path: /app/tests/api_keys.yaml
+  api_key_env: GOOGLE_API_KEY
+  model_name: gemini-2.0-flash-lite
+
+data_path: /app/agents/text2chart/data/matplotbench_easy/data.json
+save_folder: /app/agents/text2chart/v1/save/matplotbench_easy/
+
+prompts:
+  gen_path: /app/llmtoolbox/prompts/text2chart/gen.yaml
+  fix_path: /app/llmtoolbox/prompts/text2chart/fix.yaml
+  eval_path: /app/llmtoolbox/prompts/text2chart/eval.yaml
+  refine_path: /app/llmtoolbox/prompts/text2chart/refine.yaml

@@ -31,23 +31,27 @@ class GoogleGeminiChatAPI(BaseAPI):
         ) -> dict:
         @retry(stop=stop_after_attempt(retry_times), wait=wait_fixed(retry_sec))
         def _call_api():
+            if response_format:
+                cfg = GenerateContentConfig(
+                        temperature=temperature,
+                        response_mime_type="application/json",
+                        response_schema={
+                            "type": "object",
+                            "properties": response_format,
+                        }
+                    )
+            else:
+                cfg = GenerateContentConfig(temperature=temperature)
             response = self.client.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
-                config=GenerateContentConfig(
-                    temperature=temperature,
-                    response_mime_type="application/json",
-                    response_schema={
-                        "type": "object",
-                        "properties": response_format,
-                    }
-                )
+                config=cfg
             )
             self.update_acc_tokens(
                 input_tokens=response.usage_metadata.prompt_token_count,
                 output_tokens=response.usage_metadata.candidates_token_count
             )
-            return response.parsed
+            return response.parsed if response_format else response.text
         return _call_api()
 
     async def arun(
@@ -60,22 +64,26 @@ class GoogleGeminiChatAPI(BaseAPI):
         ) -> dict:
         @retry(stop=stop_after_attempt(retry_times), wait=wait_fixed(retry_sec))
         async def _call_api():
+            if response_format:
+                cfg = GenerateContentConfig(
+                        temperature=temperature,
+                        response_mime_type="application/json",
+                        response_schema={
+                            "type": "object",
+                            "properties": response_format,
+                        }
+                    )
+            else:
+                cfg = GenerateContentConfig(temperature=temperature)
             response = await self.client.aio.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
-                config=GenerateContentConfig(
-                    temperature=temperature,
-                    response_mime_type="application/json",
-                    response_schema={
-                        "type": "object",
-                        "properties": response_format,
-                    }
-                )
+                config=cfg
             )
             self.update_acc_tokens(
                 input_tokens=response.usage_metadata.prompt_token_count,
                 output_tokens=response.usage_metadata.candidates_token_count
             )
-            return response.parsed
+            return response.parsed if response_format else response.text
         return await _call_api()
         

@@ -16,7 +16,7 @@ class TestLangChainGeminiChatAPI:
 
     def test_run(self):
         prompt, response_format = get_prompt_and_response_format('/app/llmtoolbox/prompts/basic.yaml')
-        response = self.api.invoke(input={"prompt": prompt, "response_format": response_format})
+        response = self.api.invoke(input={"prompt": prompt, "response_format": response_format})["result"]
         #
         expect_response_format = get_response_model(response_format)
         expect_response_format(**response)
@@ -38,13 +38,14 @@ class TestLangChainGeminiChatAPI:
             }
         ]
         results = amain_wrapper(self.api.ainvoke, args_list)
+        results = [result["result"] for result in results]
         #
         expect_response_format_list = [get_response_model(args["input"]["response_format"]) for args in args_list]
         assert len(results) == len(expect_response_format_list)
         for result, expect_response_format in zip(results, expect_response_format_list):
             expect_response_format(**result)
         print(results, self.api.get_price())
-    
+
     def test_arun_img(self):
         response_format = {"description": {"type": "string"}}
         parts = [
@@ -65,6 +66,7 @@ class TestLangChainGeminiChatAPI:
                 }
             ]
         )
+        results = [result["result"] for result in results]
         #
         expect_response_format = get_response_model(response_format)
         expect_response_format(**results[0])
@@ -74,5 +76,7 @@ class TestLangChainGeminiChatAPI:
 if __name__ == "__main__":
     test_instance = TestLangChainGeminiChatAPI()
     test_instance.setup_class()
+    test_instance.test_run()
+    test_instance.test_arun()
     test_instance.test_arun_img()
     

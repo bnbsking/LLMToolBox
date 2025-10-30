@@ -1,16 +1,25 @@
-from typing import Tuple, Dict
+from typing import Dict, Type
 import yaml
 
+from llmtoolbox.common.formatting import get_response_model
 
-def get_prompt_and_response_format(prompt_path: str, replace_dict: dict = {}) -> Tuple[str, Dict]:
+
+class ResponseFormatProcessor:
+    def dummy(response_format: Dict) -> Dict:
+        return response_format
+
+    def model(response_format: Dict) -> Type:
+        response_model = get_response_model(response_format)
+        return response_model
+
+
+def get_prompt_and_response_format(prompt_path: str, replace_dict: dict = {}, response_process: str = "dummy"):
     with open(prompt_path, 'r') as file:
-        prompt_template = yaml.safe_load(file)
-
-    prompt = prompt_template['prompt']
-    replace_dict = prompt_template['default_replacements'] | replace_dict
-    response_format = prompt_template['response_format']
-
+        prompt_cfg = yaml.safe_load(file)
+    prompt = prompt_cfg["prompt"]
+    replace_dict = prompt_cfg["default_replacements"] | replace_dict
+    
     for key, value in replace_dict.items():
         prompt = prompt.replace(f"{{{{ {key} }}}}", value)
-
+    response_format = getattr(ResponseFormatProcessor, response_process)(prompt_cfg['response_format'])
     return prompt, response_format

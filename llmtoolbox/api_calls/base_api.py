@@ -1,9 +1,7 @@
-from abc import abstractmethod
-
 import pandas as pd
 
 
-class BaseAPI:    
+class BaseAPI:
     def __init__(self, api_key: str, model_name: str, price_csv_path: str = ""):
         self.api_key = api_key
         self.model_name = model_name

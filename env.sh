@@ -7,5 +7,3 @@ export PATH="$HOME/.local/bin:$PATH"
 poetry init
 
 poetry install
-
-poetry shell

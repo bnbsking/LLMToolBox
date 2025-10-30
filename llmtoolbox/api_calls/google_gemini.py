@@ -1,12 +1,17 @@
-from google import genai
-import pandas as pd
+from typing import List, Union
 
-from .base_api import BaseAPI
+from google import genai
 from google.genai.types import GenerateContentConfig
 from tenacity import retry, stop_after_attempt, wait_fixed
 
+from .base_api import BaseAPI
+
 
 class GoogleGeminiChatAPI(BaseAPI):
+    """
+    This class wraps Google Gemini API calls which has:
+    1 async, 2 retry, 3 token count with price, 4 pydantic response, 5 multi-modal input
+    """
     def __init__(
             self,
             api_key: str,
@@ -16,13 +21,21 @@ class GoogleGeminiChatAPI(BaseAPI):
         super().__init__(api_key, model_name, price_csv_path)
         self.client = genai.Client(api_key=api_key)
 
-    def run(self, prompt: str, response_format: dict, retry_times: int = 1, retry_sec: int = 10) -> dict:
+    def run(
+            self,
+            prompt: Union[str, List],
+            response_format: dict,
+            temperature: float = 0.7,
+            retry_times: int = 3,
+            retry_sec: int = 5
+        ) -> dict:
         @retry(stop=stop_after_attempt(retry_times), wait=wait_fixed(retry_sec))
         def _call_api():
             response = self.client.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
                 config=GenerateContentConfig(
+                    temperature=temperature,
                     response_mime_type="application/json",
                     response_schema={
                         "type": "object",
@@ -37,13 +50,21 @@ class GoogleGeminiChatAPI(BaseAPI):
             return response.parsed
         return _call_api()
 
-    async def arun(self, prompt: str, response_format: dict, retry_times: int = 1, retry_sec: int = 10) -> dict:
+    async def arun(
+            self,
+            prompt: Union[str, List],
+            response_format: dict,
+            temperature: float = 0.7,
+            retry_times: int = 3,
+            retry_sec: int = 5
+        ) -> dict:
         @retry(stop=stop_after_attempt(retry_times), wait=wait_fixed(retry_sec))
         async def _call_api():
             response = await self.client.aio.models.generate_content(
                 model=self.model_name,
                 contents=prompt,
                 config=GenerateContentConfig(
+                    temperature=temperature,
                     response_mime_type="application/json",
                     response_schema={
                         "type": "object",
@@ -57,4 +78,4 @@ class GoogleGeminiChatAPI(BaseAPI):
             )
             return response.parsed
         return await _call_api()
-    
+        

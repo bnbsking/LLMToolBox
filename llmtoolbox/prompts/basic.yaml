@@ -1,6 +1,6 @@
 prompt: |
-  Hello, I am {{ name }}. Nice to meet you.
-  Please tell me your name, age and hobbies in JSON format.
+  Hello, I am {{ name }}. Nice to meet you!
+  Please pretend a random person, and tell me your name, age and hobbies in JSON format.
 
 default_replacements:
   name: James

@@ -1,26 +1,29 @@
-from pydantic import BaseModel
-from typing import List
 import yaml
 
-from ragentools.api_calls.langchain_gemini import LangChainGeminiChatAPI
+from ragentools.api_calls.google_gemini import GoogleGeminiChatAPI
+from ragentools.api_calls.langchain_runnable import ChatRunnable
 from ragentools.common.async_main import amain_wrapper
 from ragentools.common.formatting import get_response_model
 from ragentools.prompts import get_prompt_and_response_format
 
 
-class TestLangChainGeminiChatAPI:
+class TestChatRunnable:
     @classmethod
     def setup_class(cls):
         api_key = yaml.safe_load(open("/app/tests/api_keys.yaml"))["GOOGLE_API_KEY"]
-        cls.api = LangChainGeminiChatAPI(api_key=api_key, model_name="gemini-2.0-flash-lite")
+        cls.runnable = ChatRunnable(
+            api=GoogleGeminiChatAPI,
+            api_key=api_key,
+            model_name="gemini-2.0-flash-lite"
+        )
 
     def test_run(self):
         prompt, response_format = get_prompt_and_response_format('/app/ragentools/prompts/basic.yaml')
-        response = self.api.invoke(input={"prompt": prompt, "response_format": response_format})
+        response = self.runnable.run(input={"prompt": prompt, "response_format": response_format})
         #
         expect_response_format = get_response_model(response_format)
         expect_response_format(**response)
-        print(response, self.api.get_price())
+        print(response, self.runnable.api.get_price())
     
     def test_arun(self):
         args_list = [
@@ -37,13 +40,13 @@ class TestLangChainGeminiChatAPI:
                 }
             }
         ]
-        results = amain_wrapper(self.api.ainvoke, args_list)
+        results = amain_wrapper(self.runnable.arun, args_list)
         #
         expect_response_format_list = [get_response_model(args["input"]["response_format"]) for args in args_list]
         assert len(results) == len(expect_response_format_list)
         for result, expect_response_format in zip(results, expect_response_format_list):
             expect_response_format(**result)
-        print(results, self.api.get_price())
+        print(results, self.runnable.api.get_price())
 
     def test_arun_img(self):
         response_format = {"description": {"type": "string"}}
@@ -55,7 +58,7 @@ class TestLangChainGeminiChatAPI:
             }}
         ]
         results = amain_wrapper(
-            self.api.ainvoke,
+            self.runnable.arun,
             [
                 {
                     "input": {
@@ -68,13 +71,13 @@ class TestLangChainGeminiChatAPI:
         #
         expect_response_format = get_response_model(response_format)
         expect_response_format(**results[0])
-        print(results, self.api.get_price())
+        print(results, self.runnable.api.get_price())
 
 
 if __name__ == "__main__":
-    test_instance = TestLangChainGeminiChatAPI()
+    test_instance = TestChatRunnable()
     test_instance.setup_class()
-    #test_instance.test_run()
-    #test_instance.test_arun()
+    test_instance.test_run()
+    test_instance.test_arun()
     test_instance.test_arun_img()
     

@@ -10,7 +10,8 @@ from langgraph.graph import StateGraph, START, END
 from langchain_core.runnables import Runnable
 import yaml
 
-from ragentools.api_calls.langchain_gemini import LangChainGeminiChatAPI
+from ragentools.api_calls.google_gemini import GoogleGeminiChatAPI
+from ragentools.api_calls.langchain_runnable import ChatRunnable
 from ragentools.prompts import get_prompt_and_response_format
 
 
@@ -25,11 +26,11 @@ def get_prefix_dict(state: dict, prefix: str) -> dict:
     return {k.removeprefix(prefix): v for k, v in state.items() if k.startswith(prefix)}
 
 
-class GenNode(LangChainGeminiChatAPI):
+class GenNode(ChatRunnable):
     def invoke(self, state: dict, config = None) -> dict:
         substate = get_prefix_dict(state, "gen.")
         substate["response_format"] = json.loads(substate["response_format"])
-        out = super().invoke(substate)
+        out = self.run(substate)
         return state | {"_share.code": out, "_share.code_ver": 1}
 
 
@@ -59,20 +60,20 @@ class Code2Plot(Runnable):
             return state | {"_share.img_path": save_png_path, "_share.error": str(e)}
 
 
-class FixNode(LangChainGeminiChatAPI):
+class FixNode(ChatRunnable):
     def invoke(self, state: dict, config = None) -> dict:
         substate = get_prefix_dict(state, "fix.")
         substate["prompt"] = substate["prompt"]\
             .replace("{{ code }}", state["_share.code"])\
             .replace("{{ error_msg }}", state["_share.error"])
         substate["response_format"] = json.loads(substate["response_format"])
-        out = super().invoke(substate)
+        out = self.run(substate)
 
         code_ver = state["_share.code_ver"] + 1
         return state | {"_share.code": out, "_share.error": None, "_share.code_ver": code_ver}
 
 
-class EvalNode(LangChainGeminiChatAPI):
+class EvalNode(ChatRunnable):
     def invoke(self, state: dict, config = None) -> dict:
         img_path = state["_share.img_path"]
         substate = get_prefix_dict(state, "eval.")
@@ -86,11 +87,11 @@ class EvalNode(LangChainGeminiChatAPI):
             }}
         ]
         substate["prompt"] = [{"role": "user", "parts": parts}]
-        out = super().invoke(substate)
+        out = self.run(substate)
         return state | {f"_share.scores.{k}": v for k, v in out.items()}
 
 
-class RefineNode(LangChainGeminiChatAPI):
+class RefineNode(ChatRunnable):
     def invoke(self, state: dict, config = None) -> dict:
         substate = get_prefix_dict(state, "refine.")
         substate["response_format"] = json.loads(substate["response_format"])
@@ -99,7 +100,7 @@ class RefineNode(LangChainGeminiChatAPI):
         substate["prompt"] = substate["prompt"]\
             .replace("{{ code }}", code)\
             .replace("{{ suggestion }}", suggestion)
-        out = super().invoke(substate)
+        out = self.run(substate)
 
         code_ver = state["_share.code_ver"] + 1
         return state | {"code": out, "code_ver": code_ver}
@@ -135,7 +136,7 @@ if __name__ == "__main__":
     cfg_api = cfg["api"]
     cfg_pmt = cfg["prompts"]
     api_key = yaml.safe_load(open(cfg_api["api_key_path"]))[cfg_api["api_key_env"]]
-    api_args = {"api_key": api_key, "model_name": cfg_api["model_name"]}
+    api_args = {"api": GoogleGeminiChatAPI, "api_key": api_key, "model_name": cfg_api["model_name"]}
 
     gen_node = GenNode(**api_args)
     code2plot_node = Code2Plot(cfg["save_folder"])

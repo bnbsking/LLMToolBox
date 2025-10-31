@@ -5,15 +5,15 @@ RAG (Retrieved, Augmentated, Generation) and AGENT tools.
 ## Motivation
 
 1. **Extended LLM call** <br>
-    Based on `Gemini` official API, extend more useful functions include:
+    Based on `Gemini` and `OpenAI` official API, extend more useful functions include:
     
-    | Gemini API | Async      | Retry              | Get token/price | Formatted response | Img Input |
-    | -          | -          | -                  | -               | -                  | - |
-    | Official   | ⚠️ Wrapper | ❌ Not support    | ⚠️ Hassle       | ✅ Server-side (strong) | ✅ |
-    | LangChain  | ⚠️ Wrapper | ⚠️ conn. only     | ⚠️ Hassle       | ⚠️ Client-side (medium) | ✅ |
-    | Ours       | ✅ Call    | ✅ conn. & format | ✅ .get_price() | ✅ Server-side (strong) | ✅ |
+    | API       | Async      | Retry              | Get token/price | Formatted response | Img Input |
+    | -         | -          | -                  | -               | -                  | - |
+    | Official  | ⚠️ Wrapper | ❌ Not support    | ⚠️ Hassle       | ✅ Server-side (strong) | ✅ |
+    | LangChain | ⚠️ Wrapper | ⚠️ conn. only     | ⚠️ Hassle       | ⚠️ Client-side (medium) | ✅ |
+    | Ours      | ✅ Call    | ✅ conn. & format | ✅ .get_price() | ✅ Server-side (strong) | ✅ |
     
-    see [implementation details](ragentools/api_calls/google_gemini.py).
+    see implementation details of [Gemini](ragentools/api_calls/google_gemini.py) and [GPT](ragentools/api_calls/openai_gpt.py)
 
 2. **Agents** <br>
     Based on **Extended LLM call** and **LangChain Runnable**, build complex agent by `LangGraph` efficiently.
@@ -42,18 +42,25 @@ following code with the features
 + 2 image input: followed by Google official configuration
 + 3 async: call `amain_wrapper(async_func: Callable, arg_list: List[Dict])` to easily harness async program.
 + 4 retry: based on tencaity, customize retry times and intervals.
-+ 5 get price: use `.get_price()` easily. Update price table in [here](ragentools/api_calls/price_gemini.csv)
++ 5 get price: use `.get_price()` easily. Update the price table in [here](ragentools/api_calls/prices.csv)
 
 ```python
 import yaml
 
-from ragentools.api_calls.langchain_gemini import LangChainGeminiChatAPI
+from ragentools.api_calls.google_gemini import GoogleGeminiChatAPI
+from ragentools.api_calls.langchain_runnable import ChatRunnable
 from ragentools.common.async_main import amain_wrapper
 from ragentools.common.formatting import get_response_model
 from ragentools.prompts import get_prompt_and_response_format
 
+
 api_key = yaml.safe_load(open("/app/tests/api_keys.yaml"))["GOOGLE_API_KEY"]
-api = LangChainGeminiChatAPI(api_key=api_key, model_name="gemini-2.0-flash-lite")
+runnable = ChatRunnable(
+    api=GoogleGeminiChatAPI,
+    api_key=api_key,
+    model_name="gemini-2.0-flash-lite"
+)
+
 
 response_format = {"description": {"type": "string"}}  # 1 formatted response
 parts = [
@@ -64,7 +71,7 @@ parts = [
     }}
 ]  # 2 image input
 results = amain_wrapper(  # 3 async
-    self.api.ainvoke,
+    self.runnable.arun,
     [
         {
             "input": {
@@ -76,11 +83,12 @@ results = amain_wrapper(  # 3 async
         }
     ]
 )
-#
+
+
 expect_response_format = get_response_model(response_format)
 expect_response_format(**results[0])
 print(results)               # 1 formatted response
-print(self.api.get_price())  # 5 get price
+print(self.runnable.api.get_price())  # 5 get price
 ```
 
 The outcome will be
@@ -91,9 +99,9 @@ The outcome will be
 
 #### 2. Text2Chart agent
 + code
-    + Each node inherits `LangChainGeminiChatAPI` which contains both
-        + Extended LLM Call for benefits.
-        + Runnable for graph scalability.
+    + Each node
+        + Inherits "LangChain Runnable" for graph scalability
+        + Has attribute "Extended LLM Call" for api benefits.
 ```bash
 python agents/text2chart/v1/main.py
 ```
@@ -196,8 +204,9 @@ prompts:
 ```
 
 + output folder: `agents/text2chart/v1/save/matplotbench_easy`
-    + id 5 plot: [id5](agents/text2chart/v1/save/matplotbench_easy/5/v1.png)
-    + id 5 eval:
+    + example of "id=5" data
+        + plot: ![id5](agents/text2chart/v1/save/matplotbench_easy/5/v1.png)
+        + eval:
 ```json
 {
     "representative": 2,

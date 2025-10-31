@@ -16,7 +16,7 @@ class GoogleGeminiChatAPI(BaseAPI):
             self,
             api_key: str,
             model_name: str,
-            price_csv_path: str = "/app/ragentools/api_calls/price_gemini.csv"
+            price_csv_path: str = "/app/ragentools/api_calls/prices.csv"
         ):
         super().__init__(api_key, model_name, price_csv_path)
         self.client = genai.Client(api_key=api_key)
@@ -28,7 +28,7 @@ class GoogleGeminiChatAPI(BaseAPI):
             temperature: float = 0.7,
             retry_times: int = 3,
             retry_sec: int = 5
-        ) -> dict:
+        ) -> Union[str, dict]:
         @retry(stop=stop_after_attempt(retry_times), wait=wait_fixed(retry_sec))
         def _call_api():
             if response_format:
@@ -61,7 +61,7 @@ class GoogleGeminiChatAPI(BaseAPI):
             temperature: float = 0.7,
             retry_times: int = 3,
             retry_sec: int = 5
-        ) -> dict:
+        ) -> Union[str, dict]:
         @retry(stop=stop_after_attempt(retry_times), wait=wait_fixed(retry_sec))
         async def _call_api():
             if response_format:

@@ -7,7 +7,7 @@ prompt: |
 
   **Code**: {{ code }}
 
-  **Error Message**: {{ error_message }}
+  **Error Message**: {{ error_msg }}
 
   **Notes**: If you have any remarks, please add them as comments in the code.
   Do not add any text outside the code block.

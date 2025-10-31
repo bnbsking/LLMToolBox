@@ -1,4 +1,4 @@
-$projectPath = "C:\Users\James\Desktop\code\RAGENToolbox"
+$projectPath = "C:\Users\James\Desktop\code\RAGENTools"
 
 docker run -it --rm `
   -v "${projectPath}:/app" `

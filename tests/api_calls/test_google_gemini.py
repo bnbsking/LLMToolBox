@@ -71,5 +71,5 @@ if __name__ == "__main__":
     obj = TestGoogleGeminiChatAPI()
     obj.setup_class()
     obj.test_run()
-    #obj.test_arun()
-    #obj.test_arun_img()
+    obj.test_arun()
+    obj.test_arun_img()

@@ -1,5 +1,5 @@
 prompt: |
-  **Goal**: You are an expert of fixing data visualization code.
+  **Goal**: You are an expert of refining data visualization code.
   Given the query, code, and refine suggestion,
   Refine the python code to executable and also meet the requirements in the query based on matplotlib.
 

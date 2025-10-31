@@ -1,92 +1,14 @@
 [
     {
-        "simple_instruction": "Create a pie chart:\n\nThe pie chart represents the distribution of fruits in a basket, with the proportions being 35% apples, 45% oranges, and 20% bananas",
-        "expert_instruction": "Create a pie chart:\n\nThe pie chart represents the distribution of fruits in a basket, with the proportions being 35% apples, 45% oranges, and 20% bananas",
+        "instruction": "Create a pie chart:\n\nThe pie chart represents the distribution of fruits in a basket, with the proportions being 35% apples, 45% oranges, and 20% bananas",
         "id": 5
     },
     {
-        "simple_instruction": "Generate a Python script using matplotlib to create a 4x4 inch figure that plots a line based on array 'x' from 0.0 to 10.0 (step 0.02) against 'y' which is sine(3pix). Set the x-axis limit from -2 to 10 and the y-axis limit from -6 to 6.",
-        "expert_instruction": "Generate a Python script using matplotlib to create a 4x4 inch figure that plots a line based on array 'x' from 0.0 to 10.0 (step 0.02) against 'y' which is sine(3pix). Set the x-axis limit from -2 to 10 and the y-axis limit from -6 to 6.",
+        "instruction": "Generate a Python script using matplotlib to create a 4x4 inch figure that plots a line based on array 'x' from 0.0 to 10.0 (step 0.02) against 'y' which is sine(3pix). Set the x-axis limit from -2 to 10 and the y-axis limit from -6 to 6.",
         "id": 9
     },
     {
-        "simple_instruction": "Could you assist me in creating a Python script that generates a plot with the following specifications?\n\n1. The plot should contain three lines. The first line should represent the square of a numerical sequence ranging from 0.0 to 3.0 in increments of 0.02. The second line should represent the cosine of '3*pi' times the same sequence. The third line should represent the product of the square of the sequence and the cosine of '3*pi' times the sequence.\n\n2. The plot should have a legend, labeling the first line as 'square', second line as 'oscillatory' and the third line as 'damped'.\n\n3. The x-axis should be labeled as 'time' and the y-axis as 'amplitude'. The title of the plot should be 'Damped oscillation'.\n\nCould you help me with this?\"",
-        "expert_instruction": "Could you assist me in creating a Python script that generates a plot with the following specifications?\n\n1. The plot should contain three lines. The first line should represent the square of a numerical sequence ranging from 0.0 to 3.0 in increments of 0.02. The second line should represent the cosine of '3*pi' times the same sequence. The third line should represent the product of the square of the sequence and the cosine of '3*pi' times the sequence.\n\n2. The plot should have a legend, labeling the first line as 'square', second line as 'oscillatory' and the third line as 'damped'.\n\n3. The x-axis should be labeled as 'time' and the y-axis as 'amplitude'. The title of the plot should be 'Damped oscillation'.\n\nCould you help me with this?\"",
+        "instruction": "Could you assist me in creating a Python script that generates a plot with the following specifications?\n\n1. The plot should contain three lines. The first line should represent the square of a numerical sequence ranging from 0.0 to 3.0 in increments of 0.02. The second line should represent the cosine of '3*pi' times the same sequence. The third line should represent the product of the square of the sequence and the cosine of '3*pi' times the sequence.\n\n2. The plot should have a legend, labeling the first line as 'square', second line as 'oscillatory' and the third line as 'damped'.\n\n3. The x-axis should be labeled as 'time' and the y-axis as 'amplitude'. The title of the plot should be 'Damped oscillation'.\n\nCould you help me with this?\"",
         "id": 10
-    },
-    {
-        "simple_instruction": "Create a matplotlib plot with the following specifications:\n\n- Draw two curves on a single set of axes:\n  1. A curve of the equation 1/2 * (1 + tanh(1 * x)).\n  2. A curve for the equation 1/2 * (1 + tanh(2 * x)).\n  3. A vertical line x=0 representing the sharp interface, two horizontal green line y=0 while x<0, y=1 while x>0.\n\nLabel the x-axis as 'x' and the y-axis as 'y'.\n\n- The x-axis should range from -2 to 2 and the y-axis should range from 0 to 1.",
-        "expert_instruction": "Create a matplotlib plot with the following specifications:\n\n- Draw two curves on a single set of axes:\n  1. A curve of the equation 1/2 * (1 + tanh(1 * x)).\n  2. A curve for the equation 1/2 * (1 + tanh(2 * x)).\n  3. A vertical line x=0 representing the sharp interface, two horizontal green line y=0 while x<0, y=1 while x>0.\n\nLabel the x-axis as 'x' and the y-axis as 'y'.\n\n- The x-axis should range from -2 to 2 and the y-axis should range from 0 to 1.",
-        "id": 11
-    },
-    {
-        "simple_instruction": "Generate a Python script that creates a bar chart using a list of x values from 1 to 20 and a list of 20 random y values in range -2 to 1. The title should be \"A bar plot\" respectively.",
-        "expert_instruction": "Generate a Python script that creates a bar chart using a list of x values from 1 to 20 and a list of 20 random y values in range -2 to 1. The title should be \"A bar plot\" respectively.",
-        "id": 12
-    },
-    {
-        "simple_instruction": "Generate a Python script to create a plot with these features:\n\nEnsure random number generation is consistent in the script.\nDevelop a function to create histograms based on beta distributions.",
-        "expert_instruction": "Generate a Python script to create a plot with these features:\n\nEnsure random number generation is consistent in the script.\nDevelop a function to create histograms based on beta distributions.",
-        "id": 14
-    },
-    {
-        "simple_instruction": "Could you help me create a Python script that generates a plot for the equation (z - 4) * (z - 6) * (z - 8) + 90? The plot should range from 0 to 11 on the x-axis. The y-axis should start from 0.",
-        "expert_instruction": "Could you help me create a Python script that generates a plot for the equation (z - 4) * (z - 6) * (z - 8) + 90? The plot should range from 0 to 11 on the x-axis. The y-axis should start from 0.",
-        "id": 15
-    },
-    {
-        "simple_instruction": "Create a Python script that uses data visualization and numerical computation libraries to generate a figure. The plot should be a 2D plot of a function, g(s), which is the sine of 3*pi*s multiplied by the exponential of -s, with three different sets of data g(s), g(s + 0.1) and g(s + 0.2).",
-        "expert_instruction": "Create a Python script that uses data visualization and numerical computation libraries to generate a figure. The plot should be a 2D plot of a function, g(s), which is the sine of 3*pi*s multiplied by the exponential of -s, with three different sets of data g(s), g(s + 0.1) and g(s + 0.2).",
-        "id": 25
-    },
-    {
-        "simple_instruction": "Generate a Python script that visualizes a mathematical function. It should show the exponential decay of a range of data with a decay factor of 7.0. The range of data should be spaced from 0.02 to 25.0 with a step of 0.02. The y-axis should be on a logarithmic scale.",
-        "expert_instruction": "Generate a Python script that visualizes a mathematical function. It should show the exponential decay of a range of data with a decay factor of 7.0. The range of data should be spaced from 0.02 to 25.0 with a step of 0.02. The y-axis should be on a logarithmic scale.",
-        "id": 35
-    },
-    {
-        "simple_instruction": "Create a Python code that generates a matplotlib plot. The plot should be based on a numpy array of 200 points between 0 and 4\u03c0, and its cosine multiplied by 3.",
-        "expert_instruction": "Create a Python code that generates a matplotlib plot. The plot should be based on a numpy array of 200 points between 0 and 4\u03c0, and its cosine multiplied by 3.",
-        "id": 43
-    },
-    {
-        "simple_instruction": "Generate a Python plot using a suitable library that includes three lines representing \"Pressure\", \"Humidity\", and \"Wind Speed\" over time. The \"Pressure\" line should be plotted with the points (0,0), (1,2), and (2,4), the \"Humidity\" line with the points (0,0), (1,4), and (2,3), and the \"Wind Speed\" line with the points (0,7), (1,4), and (2,2). The line plots should include a legend for the three line plots.",
-        "expert_instruction": "Generate a Python plot using a suitable library that includes three lines representing \"Pressure\", \"Humidity\", and \"Wind Speed\" over time. The \"Pressure\" line should be plotted with the points (0,0), (1,2), and (2,4), the \"Humidity\" line with the points (0,0), (1,4), and (2,3), and the \"Wind Speed\" line with the points (0,7), (1,4), and (2,2). The line plots should include a legend for the three line plots.",
-        "id": 44
-    },
-    {
-        "simple_instruction": "Create a scatter plot of two distinct sets of random data, each containing 150 points. The first set (Group X) should be centered around (-2,-2) and visualized in blue, and the second set (Group Y) should be centered around (2,2) and visualized in orange. The plot should be of size 5x5 with an aspect ratio of 1, and the x and y limits should be between -5 and 5.",
-        "expert_instruction": "Create a scatter plot of two distinct sets of random data, each containing 150 points. The first set (Group X) should be centered around (-2,-2) and visualized in blue, and the second set (Group Y) should be centered around (2,2) and visualized in orange. The plot should be of size 5x5 with an aspect ratio of 1, and the x and y limits should be between -5 and 5.",
-        "id": 45
-    },
-    {
-        "simple_instruction": "Create a Python script that generates a diagram using a specific plotting library and a numerical computing library.\n\nConstruct a scatter plot with coordinates generated from a uniform distribution. Ensure the aspect ratio of the plot is equal.",
-        "expert_instruction": "Create a Python script that generates a diagram using a specific plotting library and a numerical computing library.\n\nConstruct a scatter plot with coordinates generated from a uniform distribution. Ensure the aspect ratio of the plot is equal.",
-        "id": 53
-    },
-    {
-        "simple_instruction": "Generate a Python code to plot the hyperbolic tangent function for a numerical array of 200 evenly spaced numbers between -20 and 20. Additionally, draw a line through the point (0, 0.5) with a slope of 0.5. The x-axis should be limited from -20 to 20. Include a legend.",
-        "expert_instruction": "Generate a Python code to plot the hyperbolic tangent function for a numerical array of 200 evenly spaced numbers between -20 and 20. Additionally, draw a line through the point (0, 0.5) with a slope of 0.5. The x-axis should be limited from -20 to 20. Include a legend.",
-        "id": 54
-    },
-    {
-        "simple_instruction": "Show the scatter plot by using some random data x = np.random.randn(1000), y = np.random.randn(1000).",
-        "expert_instruction": "Show the scatter plot by using some random data x = np.random.randn(1000), y = np.random.randn(1000).",
-        "id": 65
-    },
-    {
-        "simple_instruction": "Plot the data using the following arrays: t = np.arange(0.01, 10.0, 0.01), data1 = np.exp(t), data2 = np.sin(2 * np.pi * t).",
-        "expert_instruction": "Plot the data using the following arrays: t = np.arange(0.01, 10.0, 0.01), data1 = np.exp(t), data2 = np.sin(2 * np.pi * t).",
-        "id": 69
-    },
-    {
-        "id": 76,
-        "simple_instruction": "Write a code to load 'data.csv' and visualize the \"Women's millions of dollars\" column with a histogram.",
-        "expert_instruction": "Write a code to load 'data.csv' and visualize the \"Women's millions of dollars\" column with a histogram."
-    },
-    {
-        "id": 83,
-        "simple_instruction": "I want to create a line chart of the Dow Jones Industrial Average from October 2006 to August 2013 using Python. The data is in 'data.csv' with columns \"date\", \"Dow Jones Industrial Average\" and \"1 year moving average\". Write a Python code to read the data and draw two lines on the chart. Then add a title, labels, and a legend, and make sure the dates are easily readable.",
-        "expert_instruction": "I want to create a line chart of the Dow Jones Industrial Average from October 2006 to August 2013 using Python. The data is in 'data.csv' with columns \"date\", \"Dow Jones Industrial Average\" and \"1 year moving average\". Write a Python code to read the data and draw two lines on the chart. Then add a title, labels, and a legend, and make sure the dates are easily readable."
     }
 ]

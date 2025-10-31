@@ -1,0 +1,7 @@
+{
+    "representative": 2,
+    "data_consistency": 2,
+    "scale_correctness": 2,
+    "label_accuracy": 2,
+    "explanation": "The pie chart accurately represents the fruit distribution with correct proportions and labels."
+}

@@ -35,7 +35,6 @@ prompt: |
       - 2 (Mostly accurate)
 
   **Query:**  {{ query }}
-  [query]
 
   **Response:** Provide a structured JSON.
 

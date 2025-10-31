@@ -1,7 +1,7 @@
 from typing import Dict, Type
 import yaml
 
-from llmtoolbox.common.formatting import get_response_model
+from ragentools.common.formatting import get_response_model
 
 
 class ResponseFormatProcessor:

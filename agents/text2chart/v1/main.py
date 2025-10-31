@@ -6,8 +6,8 @@ from langgraph.graph import StateGraph, START, END
 from langchain_core.runnables import Runnable
 import yaml
 
-from llmtoolbox.api_calls.langchain_gemini import LangChainGeminiChatAPI
-from llmtoolbox.prompts import get_prompt_and_response_format
+from ragentools.api_calls.langchain_gemini import LangChainGeminiChatAPI
+from ragentools.prompts import get_prompt_and_response_format
 
 
 def get_query_generator(json_path: str):

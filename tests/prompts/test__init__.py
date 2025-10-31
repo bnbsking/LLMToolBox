@@ -1,8 +1,8 @@
-from llmtoolbox.prompts import get_prompt_and_response_format
+from ragentools.prompts import get_prompt_and_response_format
 
 
 def test_get_prompt_and_response_format():
-    prompt, response_format = get_prompt_and_response_format('/app/llmtoolbox/prompts/basic.yaml')
+    prompt, response_format = get_prompt_and_response_format('/app/ragentools/prompts/basic.yaml')
     assert "Hello, I am James" in prompt
     assert response_format == {
         "name": {"type": "string"},

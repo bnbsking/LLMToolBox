@@ -16,7 +16,7 @@ class GoogleGeminiChatAPI(BaseAPI):
             self,
             api_key: str,
             model_name: str,
-            price_csv_path: str = "/app/llmtoolbox/api_calls/price_gemini.csv"
+            price_csv_path: str = "/app/ragentools/api_calls/price_gemini.csv"
         ):
         super().__init__(api_key, model_name, price_csv_path)
         self.client = genai.Client(api_key=api_key)

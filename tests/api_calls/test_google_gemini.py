@@ -1,9 +1,9 @@
 import yaml
 
-from llmtoolbox.api_calls.google_gemini import GoogleGeminiChatAPI
-from llmtoolbox.common.async_main import amain_wrapper
-from llmtoolbox.common.formatting import get_response_model
-from llmtoolbox.prompts import get_prompt_and_response_format
+from ragentools.api_calls.google_gemini import GoogleGeminiChatAPI
+from ragentools.common.async_main import amain_wrapper
+from ragentools.common.formatting import get_response_model
+from ragentools.prompts import get_prompt_and_response_format
 
 
 class TestGoogleGeminiChatAPI:
@@ -13,7 +13,7 @@ class TestGoogleGeminiChatAPI:
         cls.api = GoogleGeminiChatAPI(api_key=api_key, model_name="gemini-2.0-flash-lite")
 
     def test_run(self):
-        prompt, response_format = get_prompt_and_response_format('/app/llmtoolbox/prompts/basic.yaml')
+        prompt, response_format = get_prompt_and_response_format('/app/ragentools/prompts/basic.yaml')
         response = self.api.run(prompt=prompt, response_format=response_format)
         #
         expect_response_format = get_response_model(response_format)

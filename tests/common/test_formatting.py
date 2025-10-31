@@ -1,4 +1,4 @@
-from llmtoolbox.common.formatting import get_response_model
+from ragentools.common.formatting import get_response_model
 
 
 def test_get_response_model():

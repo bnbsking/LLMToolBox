@@ -2,10 +2,10 @@ from pydantic import BaseModel
 from typing import List
 import yaml
 
-from llmtoolbox.api_calls.langchain_gemini import LangChainGeminiChatAPI
-from llmtoolbox.common.async_main import amain_wrapper
-from llmtoolbox.common.formatting import get_response_model
-from llmtoolbox.prompts import get_prompt_and_response_format
+from ragentools.api_calls.langchain_gemini import LangChainGeminiChatAPI
+from ragentools.common.async_main import amain_wrapper
+from ragentools.common.formatting import get_response_model
+from ragentools.prompts import get_prompt_and_response_format
 
 
 class TestLangChainGeminiChatAPI:
@@ -15,7 +15,7 @@ class TestLangChainGeminiChatAPI:
         cls.api = LangChainGeminiChatAPI(api_key=api_key, model_name="gemini-2.0-flash-lite")
 
     def test_run(self):
-        prompt, response_format = get_prompt_and_response_format('/app/llmtoolbox/prompts/basic.yaml')
+        prompt, response_format = get_prompt_and_response_format('/app/ragentools/prompts/basic.yaml')
         response = self.api.invoke(input={"prompt": prompt, "response_format": response_format})["result"]
         #
         expect_response_format = get_response_model(response_format)

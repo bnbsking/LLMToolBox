@@ -1,6 +1,6 @@
 # /bin/bash
 
-projectPath="/home/james/Desktop/code/LLMToolBox"
+projectPath="/home/james/Desktop/code/RAGENToolbox"
 
 docker run -it --rm \
   -v "${projectPath}:/app" \

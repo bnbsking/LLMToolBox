@@ -32,7 +32,27 @@ RAG (Retrieved, Augmentated, Generation) and AGENT tools.
         + [Agent Implementation Example](agents/text2chart/v1/main.py)
         + output folder: `agents/text2chart/v1/save/matplotbench_easy`
 
-3. RAG
+3. **RAG**
+    + Parsers
+        + BaseParser -> PDFParser, TextParser
+        + About chunk size
+            + Too fragmented -> Low k@recall or Low context recall -> Need to increase
+            + Too much irrelevent -> Low k@precision -> Need to decrease
+    + Indexers
+    + Retrievers
+    + Evaluators - RAGAs
+        + RAGAs <br>
+            ![ragas](pics/ragas.png)
+        + Tuning strategy
+        
+| Metrics        | Method       | Used | Target | Meaning | Tuning |
+| -              | -            | -    | -      | -       | -      |
+| k@precision    | LLM as judge | Y | Retrieved-Query    | How many chunks are closely related to the query | Reduce chunk size |
+| k@recall       | Precompute   | N | Retrieved-Query    | How many chunks for generating this QA is retrieved | - |
+| context recall | LLM as judge | Y | Retrieved-GT       | How many chunks are helpful to the GT | increase chunk size, top-k |
+| faithfulness   | LLM as judge | Y | Retrieved-Response | How many chunks are helpful to the Response | low context recall: increase chunk size, overlap, top-k<br> high context recall: LLM hallucinates or do not need RAG |
+| relevancy      | LLM as judge | Y | Query-Response     | Whether LLM understand query | Enhance LLM or prompt |
+| correctness    | LLM as judge | Y | Response-GT        | Overall score | - |
 
 
 ## Installation
@@ -40,7 +60,7 @@ RAG (Retrieved, Augmentated, Generation) and AGENT tools.
 pip instal -e .
 ```
 
-## Example
+## Examples
 #### 1. Call API
 following code with the features
 + 1 formatted response: dictionary followed by Google official configuration.
